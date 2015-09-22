@@ -1,6 +1,4 @@
-# Created by https://www.gitignore.io/api/inux,osx,windows,netbeans,eclipse,intellij
-
-#!! ERROR: inux is undefined. Use list command to see defined gitignore types !!#
+# Created by https://www.gitignore.io/api/osx,windows,linux,netbeans,eclipse,intellij
 
 ### OSX ###
 .DS_Store
@@ -49,6 +47,16 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+### Linux ###
+*~
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
 
 
 ### NetBeans ###
