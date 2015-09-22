@@ -4,8 +4,6 @@
    Updated by Tijs Slaats <tslaats@itu.dk>
 */
 
-package searchcmd;
-
 import java.io.*;
 
 // A (item of a) linked list of strings.
