@@ -1,7 +1,5 @@
 /* SearchCmd.java
-   Written by Rune Hansen
-   Updated by Alexandre Buisse <abui@itu.dk>
-   Updated by Tijs Slaats <tslaats@itu.dk>
+   A search engine written by Adrian Brink, Asger Pedersen, Simon Flachs and Troels Møller.
 */
 
 import java.io.*;
