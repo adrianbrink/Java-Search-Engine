@@ -1,3 +1,5 @@
+package client;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,7 +9,7 @@ import java.io.IOException;
 // for them to be used.
 class Searcher {
 
-    // Checks if the string words occurs in HTMLlist l.
+    // Checks if the string words occurs in client.HTMLlist l.
     // Recall that l represents a single item of the linked list, but points to
     // the remainder of the list.
     public static boolean exists (HTMLlist l, String word) {
@@ -24,7 +26,7 @@ class Searcher {
         return false;
     }
 
-    // Creates a HTMLlist from a file.
+    // Creates a client.HTMLlist from a file.
     public static HTMLlist readHtmlList (String filename) throws IOException {
         String name;
         HTMLlist start, current, tmp;
