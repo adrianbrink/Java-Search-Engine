@@ -5,36 +5,77 @@ package client;/* client.SearchCmd.java
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class SearchCmd {
 
+	/*
+	|--------------------------------------------------------------------------
+	| Public Methods
+	|--------------------------------------------------------------------------
+	|
+	*/
+
     public static void main (String[] args) throws IOException {
-        String name;
 
-        // Check that a filename has been given as argument
-        if (args.length != 1) {
-            System.out.println ("Usage: java client.SearchCmd <datafile>");
-            System.exit (1);
-        }
+        exitIfNoFile(args);
 
-        // Read the file and create the linked list
-        HTMLlist l = Searcher.readHtmlList (args[0]);
+        HTMLlist l = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
 
-        // Start reading input from the user
-        BufferedReader inuser =
-            new BufferedReader (new InputStreamReader (System.in));
+        BufferedReader inuser = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
         System.out.println ("Hit return to exit.");
-        while (true) { // Infinite loop waiting for user input 
+
+        while (true) {
+
             System.out.print ("Search for: ");
-            name = inuser.readLine(); // Read a line from the terminal
-            if (name == null || name.length() == 0) {
-                return; // If the user only pressed enter then exit the method (and program)
-            } else if (Searcher.exists (l, name)) {
-                System.out.println ("The word \""+name+"\" has been found.");
-            } else {
-                System.out.println ("The word \""+name+"\" has NOT been found.");
-            }
+
+            String name = inuser.readLine(); // Read a line from the terminal
+
+            if (name == null || name.length() == 0) return;
+
+            ArrayList<String> urls = Searcher.existsIn(l,name);
+
+            if (urls.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
+            else printResults(name, urls);
+
+        }
+    }
+
+	/*
+	|--------------------------------------------------------------------------
+	| Private Methods
+	|--------------------------------------------------------------------------
+	|
+	*/
+
+    /**
+     * Prints the the search query and the results
+     *
+     * @param name
+     * @param results
+     */
+    private static void printResults(String name, ArrayList<String> results) {
+
+        System.out.println("The word \""+name+"\" has been found in the following urls:");
+
+        for(String result: results)
+        {
+            System.out.println(result);
+        }
+    }
+
+    /**
+     * Checks that a filename has been given as argument and exits if not
+     *
+     * @param args
+     */
+    private static void exitIfNoFile(String[] args) {
+
+        if (args.length != 1)
+        {
+            System.out.println("Usage: java client.SearchCmd <datafile>");
+            System.exit (1);
         }
     }
 }
