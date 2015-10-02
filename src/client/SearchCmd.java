@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class SearchCmd {
 
@@ -34,7 +35,7 @@ public class SearchCmd {
 
             if (name == null || name.length() == 0) return;
 
-            ArrayList<String> urls = Searcher.existsIn(l,name);
+            LinkedHashSet<String> urls = Searcher.existsIn(l,name);
 
             if (urls.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
             else printResults(name, urls);
@@ -55,7 +56,7 @@ public class SearchCmd {
      * @param name
      * @param results
      */
-    private static void printResults(String name, ArrayList<String> results) {
+    private static void printResults(String name, LinkedHashSet<String> results) {
 
         System.out.println("The word \""+name+"\" has been found in the following urls:");
 

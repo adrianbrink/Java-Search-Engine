@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 class Searcher {
@@ -22,9 +24,9 @@ class Searcher {
      * @param word
      * @return
      */
-    public static ArrayList<String> existsIn (HTMLlist l, String word) {
+    public static LinkedHashSet<String> existsIn (HTMLlist l, String word) {
 
-        ArrayList<String> results = new ArrayList<String>();
+        LinkedHashSet<String> results = new LinkedHashSet<String>();
 
         String currentUrl = "";
 
@@ -32,7 +34,7 @@ class Searcher {
 
             currentUrl = setCurrentUrl(l, currentUrl);
 
-            if ( l.str.equals(word)) addResult(results, currentUrl);
+            if ( l.str.equals(word)) results.add(currentUrl);
 
             l = l.next;
         }
@@ -46,20 +48,6 @@ class Searcher {
 	|--------------------------------------------------------------------------
 	|
 	*/
-
-    /**
-     * Add a URL to the results array if it's not already in there.
-     *
-     * @param results
-     * @param currentUrl
-     * @return
-     */
-    private static ArrayList<String> addResult(ArrayList<String> results, String currentUrl) {
-
-        if ( ! results.contains(currentUrl) ) results.add(currentUrl);
-
-        return results;
-    }
 
     /**
      * Check if the list string is an url. If so, assign it as the current url.
