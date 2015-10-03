@@ -1,5 +1,3 @@
-package client;
-
 // A (item of a) linked list of strings.
 class HTMLlist {
     String str;     // Some string (a line from the source file).
