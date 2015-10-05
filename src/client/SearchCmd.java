@@ -35,7 +35,7 @@ public class SearchCmd {
 
             if (name == null || name.length() == 0) return;
 
-            LinkedHashSet<String> urls = Searcher.existsIn(l,name);
+            StringSet urls = Searcher.existsIn(l,name);
 
             if (urls.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
             else printResults(name, urls);
@@ -56,11 +56,11 @@ public class SearchCmd {
      * @param name
      * @param results
      */
-    private static void printResults(String name, LinkedHashSet<String> results) {
+    private static void printResults(String name, StringSet results) {
 
         System.out.println("The word \""+name+"\" has been found in the following urls:");
 
-        for(String result: results)
+        for(String result: results.set)
         {
             System.out.println(result);
         }

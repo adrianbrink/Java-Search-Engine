@@ -24,9 +24,9 @@ class Searcher {
      * @param word
      * @return
      */
-    public static LinkedHashSet<String> existsIn (HTMLlist l, String word) {
+    public static StringSet existsIn (HTMLlist l, String word) {
 
-        LinkedHashSet<String> results = new LinkedHashSet<String>();
+        StringSet results = new StringSet();
 
         String currentUrl = "";
 
