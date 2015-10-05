@@ -1,12 +1,8 @@
-package client;/* client.SearchCmd.java
-   A search engine written by Adrian Brink, Asger Pedersen, Simon Flachs and Troels Møller.
-*/
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 public class SearchCmd {
 
@@ -75,7 +71,7 @@ public class SearchCmd {
 
         if (args.length != 1)
         {
-            System.out.println("Usage: java client.SearchCmd <datafile>");
+            System.out.println("Usage: java client.client.SearchCmd <datafile>");
             System.exit (1);
         }
     }
