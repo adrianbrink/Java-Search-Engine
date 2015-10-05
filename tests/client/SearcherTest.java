@@ -1,5 +1,8 @@
 package client;
 
+import com.sun.tools.javac.util.ArrayUtils;
+
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 
 
@@ -22,10 +25,10 @@ public class SearcherTest {
         list.next = list2;
 
         // Act
-        LinkedHashSet result = Searcher.existsIn(list, "test");
+        StringSet result = Searcher.existsIn(list, "test");
 
         // Assert
-        assertTrue(result.contains("http://www.test.dk") && result.contains("http://www.test2.dk") );
+        assertTrue(Arrays.asList(result.set).contains("http://www.test.dk") && Arrays.asList(result.set).contains("http://www.test2.dk") );
 
     }
 }
