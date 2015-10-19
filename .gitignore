@@ -172,3 +172,6 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+# Troels is messy
+itcwww-medium-copy.txt
