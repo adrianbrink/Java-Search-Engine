@@ -1,8 +1,9 @@
-package client;
+package test.java;
 
 import com.sun.tools.javac.util.ArrayUtils;
 
 import java.util.Arrays;
+import main.java.*;
 import java.util.LinkedHashSet;
 
 

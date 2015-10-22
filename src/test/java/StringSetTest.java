@@ -1,4 +1,6 @@
-package client;
+package test.java;
+
+import main.java.StringSet;
 
 import static org.junit.Assert.*;
 
