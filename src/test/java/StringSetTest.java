@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 public class StringSetTest {
 
-
     @org.junit.Test
     public void shouldAddElementToSet() throws Exception {
 

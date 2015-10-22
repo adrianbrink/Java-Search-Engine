@@ -17,51 +17,31 @@ public class Searcher {
 	|
 	*/
 
-    /**
-     * Checks if a word exists in a HTML list and returns and array of the urls that contains the word
-     *
-     * @param l
-     * @param word
-     * @return
-     */
-    public static StringSet existsIn (HTMLlist l, String word) {
+    public static StringSet existsIn(HTMLlist list, String word) {
 
         StringSet results = new StringSet();
 
-        String currentUrl = "";
+        while (list != null) {
 
-        while (l != null) {
+            if ( list.str.equals(word))
+            {
+                UrlList currentUrl = list.urls;
 
-            currentUrl = setCurrentUrl(l, currentUrl);
+                while (currentUrl != null)
+                {
+                    results.add(currentUrl.url);
+                    currentUrl = currentUrl.next;
+                }
+            }
 
-            if ( l.str.equals(word)) results.add(currentUrl);
-
-            l = l.next;
+            list = list.next;
         }
 
         return results;
+
     }
 
-	/*
-	|--------------------------------------------------------------------------
-	| Private Methods
-	|--------------------------------------------------------------------------
-	|
-	*/
 
-    /**
-     * Check if the list string is an url. If so, assign it as the current url.
-     *
-     * @param l
-     * @param currentUrl
-     * @return
-     */
-    private static String setCurrentUrl(HTMLlist l, String currentUrl) {
-
-        if (l.str.startsWith("*PAGE:")) currentUrl = l.str.substring(6);
-
-        return currentUrl;
-    }
 
 
 }

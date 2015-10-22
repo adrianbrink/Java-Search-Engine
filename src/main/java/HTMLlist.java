@@ -4,10 +4,11 @@ package main.java;
 public class HTMLlist {
     public String str;     // Some string (a line from the source file).
     public HTMLlist next;  // Next item in the list.
+    public UrlList urls;
 
     // Class constructor
     public HTMLlist (String s, HTMLlist n) {
-        str = s;
-        next = n;
+        this.str = s;
+        this.next = n;
     }
 }
