@@ -1,5 +1,3 @@
-package main.java;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,13 +15,13 @@ public class Searcher {
 	|
 	*/
 
-    public static StringSet existsIn(HTMLlist list, String word) {
+    public static StringSet existsIn(HTMLlist list, String query) {
 
         StringSet results = new StringSet();
 
         while (list != null) {
 
-            if ( list.str.equals(word))
+            if ( list.str.equals(query))
             {
                 UrlList currentUrl = list.urls;
 

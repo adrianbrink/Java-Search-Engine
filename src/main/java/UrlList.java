@@ -1,5 +1,3 @@
-package main.java;
-
 public class UrlList {
     public String url;     // a url
     public UrlList next;  // Next url in the list

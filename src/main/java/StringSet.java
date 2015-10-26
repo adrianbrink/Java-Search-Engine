@@ -1,5 +1,3 @@
-package main.java;
-
 /**
  * A StringSet is an array of strings without duplicates
  */

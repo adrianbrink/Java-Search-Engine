@@ -1,5 +1,3 @@
-package main.java;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,9 +22,11 @@ public class HtmlReader {
 
         BufferedReader infile = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
-        String currentUrl = infile.readLine().substring(6);
+        // TODO: Add the possibility of having a first line that isn't a url.
+        String currentUrl = infile.readLine().substring(6); // read the first line as a url
 
-        HTMLlist firstWord = new HTMLlist( infile.readLine(), null );
+        HTMLlist firstWord = new HTMLlist( infile.readLine(), null ); // create the initial node of the html list
+        addUrlToWord(firstWord, currentUrl); // add the url to the first htmllist node
 
         HTMLlist currentWord = firstWord;    // set the first word as the current item
 
@@ -34,7 +34,7 @@ public class HtmlReader {
         {
             String word = infile.readLine(); // read word
 
-            if ( word == null ) break; // stop loop if no new word
+            if ( word == null ) break; // checks for end
 
             if ( word.startsWith("*PAGE:") ) // if word is a url, set the current url and skip to next word
             {
@@ -42,7 +42,7 @@ public class HtmlReader {
                 continue;
             }
 
-            HTMLlist existingWord = getExistingWord(word, firstWord);
+            HTMLlist existingWord = getExistingWord(word, firstWord); // checks for duplicates in the html list
 
             if (existingWord != null) addUrlToWord(existingWord, currentUrl); //if word exists, add url to the existing word
 
@@ -71,7 +71,7 @@ public class HtmlReader {
 	*/
 
     /**
-     * If a word exists in the html list return that item
+     * If a word exists in the html list return that the last html list item
      *
      * @param word
      * @param firstWord
@@ -81,7 +81,7 @@ public class HtmlReader {
 
         HTMLlist currentWord = firstWord;
 
-        while (currentWord != null )
+        while (currentWord != null ) // checks whether there is another html list item in our html list
         {
             if (currentWord.str.equals(word)) return currentWord;
 
@@ -99,7 +99,8 @@ public class HtmlReader {
      */
     private static void addUrlToWord(HTMLlist word, String url)
     {
-        if (word.urls == null) word.urls = new UrlList(url, null); // if word has no urls add new url list
+        if (word.urls == null)
+            word.urls = new UrlList(url, null); // if word has no urls add new url list
 
         else // if word has urls, find last url and add url list
         {
@@ -107,17 +108,24 @@ public class HtmlReader {
 
             UrlList lastUrl = currentUrl;
 
+            boolean urlExists = false;
+
             while ( true )
             {
+                if (currentUrl.url.equals(url)) // if url is already in url list, set urlExists to true
+                    urlExists = true;
+
                 currentUrl = currentUrl.next;
 
-                if (currentUrl == null) break;
+                if (currentUrl == null) // stop if at the end of the URLlist
+                    break;
 
                 lastUrl = currentUrl;
             }
 
-            lastUrl.next = new UrlList(url, null);
+            if ( ! urlExists) { // if url is new, add it is the next element of the url list, happens when urlExists is false
+                lastUrl.next = new UrlList(url, null);
+            }
         }
     }
-
 }

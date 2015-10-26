@@ -1,5 +1,3 @@
-package main.java;
-
 // A (item of a) linked list of strings.
 public class HTMLlist {
     public String str;     // Some string (a line from the source file).
