@@ -13,7 +13,9 @@ public class SearchCmd {
 
     public static void main (String[] args) throws IOException {
 
-        exitIfNoFile(args);
+        if (args.length != 1) {
+            throw new IOException("Usage: java SearchCmd <datafile>");
+        }
 
         HTMLlist list = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
 
@@ -60,17 +62,5 @@ public class SearchCmd {
         }
     }
 
-    /**
-     * Checks that a filename has been given as argument and exits if not
-     *
-     * @param args
-     */
-    private static void exitIfNoFile(String[] args) {
 
-        if (args.length != 1)
-        {
-            System.out.println("Usage: java client.client.SearchCmd <datafile>");
-            System.exit (1);
-        }
-    }
 }
