@@ -13,11 +13,13 @@ public class SearchCmd {
 
     public static void main (String[] args) throws IOException {
 
-        exitIfNoFile(args);
+        if (args.length != 1) {
+            throw new IOException("Usage: java SearchCmd <datafile>");
+        }
 
-        HTMLlist l = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
+        HTMLlist list = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
 
-        BufferedReader inuser = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
+        BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
         System.out.println ("Hit return to exit.");
 
@@ -25,11 +27,11 @@ public class SearchCmd {
 
             System.out.print ("Search for: ");
 
-            String name = inuser.readLine(); // Read a line from the terminal
+            String name = input.readLine(); // Read a line from the terminal
 
             if (name == null || name.length() == 0) return;
 
-            StringSet urls = Searcher.existsIn(l,name);
+            StringSet urls = Searcher.existsIn(list,name);
 
             if (urls.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
             else printResults(name, urls);
@@ -60,17 +62,5 @@ public class SearchCmd {
         }
     }
 
-    /**
-     * Checks that a filename has been given as argument and exits if not
-     *
-     * @param args
-     */
-    private static void exitIfNoFile(String[] args) {
 
-        if (args.length != 1)
-        {
-            System.out.println("Usage: java client.client.SearchCmd <datafile>");
-            System.exit (1);
-        }
-    }
 }

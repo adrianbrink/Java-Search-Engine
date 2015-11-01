@@ -5,7 +5,7 @@ public class StringSet {
 
     //TODO: check for duplicates
 
-    String[] set = new String[0];
+    public String[] set = new String[0];
 
     /**
      * Adds an element to the set
