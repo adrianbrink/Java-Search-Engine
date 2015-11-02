@@ -16,7 +16,7 @@ public class SearchCmd {
         if (args.length != 1)
             throw new IOException("Usage: java SearchCmd <datafile>");
 
-        HashMap list = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
+        HashMap hashMap = HtmlReader.readHtmlList (args[0]); // Read the file and create the HashMap
 
         BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
@@ -26,15 +26,15 @@ public class SearchCmd {
 
             System.out.print ("Search for: ");
 
-            String name = input.readLine(); // Read a line from the terminal
+            String query = input.readLine(); // Read a line from the terminal
 
-            if (name == null || name.length() == 0) return;
+            if (query == null || query.length() == 0) return;
 
-            StringSet results = Searcher.existsIn(list,name);
+            StringSet results = Searcher.existsIn(hashMap,query);
 
-            if (results.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
+            if (results.isEmpty()) System.out.println ("The word \""+query+"\" has NOT been found.");
 
-            else printResults(name, results);
+            else printResults(query, results);
 
         }
     }
@@ -56,7 +56,7 @@ public class SearchCmd {
 
         System.out.println("The word \""+name+"\" has been found in the following urls:");
 
-        for(String result: results.set)
+        for(String result: results.set) // for-each loop
         {
             System.out.println(result);
         }

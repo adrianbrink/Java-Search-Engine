@@ -1,15 +1,12 @@
 public class HashMap {
 
-    private int TABLE_SIZE = 128;
+    private int TABLE_SIZE;
 
     HashEntry[] table;
 
     public HashMap(int tableSize) {
         TABLE_SIZE = tableSize;
         table = new HashEntry[TABLE_SIZE];
-
-        for (int i = 0; i < TABLE_SIZE; i++)
-            table[i] = null;
     }
 
     public UrlList get(String key) {
@@ -20,7 +17,7 @@ public class HashMap {
 
         while (entry != null && !entry.key.equals(key)) entry = entry.next;
 
-        return entry == null ? null : entry.value;
+        return entry == null ? null : entry.value; // if entry == null is true, you execute the part in front of the colon, if false the part after the colon
 
     }
 

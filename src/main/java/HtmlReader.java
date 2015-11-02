@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Timer;
 
 public class HtmlReader {
 
@@ -24,7 +25,7 @@ public class HtmlReader {
 
         BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
-        HashMap hashMap = new HashMap(1000);
+        HashMap hashMap = new HashMap(500);
 
         while ( true )
         {

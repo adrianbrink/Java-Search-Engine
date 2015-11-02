@@ -15,11 +15,11 @@ public class Searcher {
 	|
 	*/
 
-    public static StringSet existsIn(HashMap list, String query) {
+    public static StringSet existsIn(HashMap hashMap, String query) {
 
         StringSet results = new StringSet();
 
-        UrlList urlList = list.get(query);
+        UrlList urlList = hashMap.get(query);
 
         if (urlList == null) return results;
 
@@ -28,9 +28,7 @@ public class Searcher {
             results.add(urlList.url);
             urlList = urlList.next;
         }
-
         return results;
-
     }
 
 
