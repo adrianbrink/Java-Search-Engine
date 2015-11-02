@@ -5,19 +5,15 @@ import static org.junit.Assert.*;
 public class HashMapTest {
 
     @Test
-    public void testGet() throws Exception {
-/*
+    public void testGetandPut() throws Exception {
         HashMap hashMap = new HashMap(128);
 
-        hashMap.put("testkey", "testvalue");
+        UrlList input = new UrlList("testUrl", null);
 
-        System.out.println(hashMap.get("testkey"));
-        */
+        hashMap.put("testkey", input);
 
-    }
+        UrlList output = (hashMap.get("testkey"));
 
-    @Test
-    public void testPut() throws Exception {
-
+        assertTrue(input == output);
     }
 }

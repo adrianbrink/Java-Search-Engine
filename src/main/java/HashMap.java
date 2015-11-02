@@ -11,14 +11,13 @@ public class HashMap {
 
     public UrlList get(String key) {
 
-        int hash = (Math.abs(key.hashCode()) % TABLE_SIZE);
+        int hash = (Math.abs(key.hashCode()) % TABLE_SIZE); // needs to be positive to be used as an index to an array
 
         HashEntry entry = table[hash];
 
-        while (entry != null && !entry.key.equals(key)) entry = entry.next;
+        while (entry != null && !entry.key.equals(key)) entry = entry.next; // continue looping until we reach we end or find the key
 
         return entry == null ? null : entry.value; // if entry == null is true, you execute the part in front of the colon, if false the part after the colon
-
     }
 
     public void put(String key, UrlList value) {

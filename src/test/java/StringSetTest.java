@@ -4,7 +4,6 @@ public class StringSetTest {
 
     @org.junit.Test
     public void shouldAddElementToSet() throws Exception {
-
         StringSet stringSet = new StringSet();
 
         stringSet.add("test");

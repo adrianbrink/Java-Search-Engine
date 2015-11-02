@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Timer;
 
 public class HtmlReader {
 
@@ -39,7 +38,7 @@ public class HtmlReader {
                 continue;
             }
 
-            if (currentUrl == null) continue;
+            if (currentUrl == null) continue; // continue until we find the first url in the input file to prevent adding words without corresponding urls
 
             addUrlToHashMap(hashMap, word, currentUrl);
         }
@@ -58,6 +57,13 @@ public class HtmlReader {
 	*/
 
 
+    /**
+     * @param hashMap
+     * @param word
+     * @param url
+     * Adds the word as the key and the url as the value of the hashmap. Checks for duplicates inside each UrlList and only appends
+     * new urls to the end.
+     */
     private static void addUrlToHashMap(HashMap hashMap, String word, String url) {
 
         UrlList urlList = hashMap.get(word);
@@ -77,7 +83,7 @@ public class HtmlReader {
 
                 currentUrl = currentUrl.next;
 
-                if (currentUrl == null) break;// stop if at the end of the URLlist
+                if (currentUrl == null) break;// stop if at the end of the Urllist
 
                 lastUrl = currentUrl;
             }
