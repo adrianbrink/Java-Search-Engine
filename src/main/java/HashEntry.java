@@ -1,6 +1,12 @@
-public class HashEntry<K, V> {
-    private K key;
-    private V value;
-    private HashEntry<K, V> next;
 
+public class HashEntry {
+    public String key;
+    public UrlList value;
+    public HashEntry next;
+
+    HashEntry(String key, UrlList value) {
+        this.key = key;
+        this.value = value;
+        this.next = null;
+    }
 }

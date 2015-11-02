@@ -13,11 +13,10 @@ public class SearchCmd {
 
     public static void main (String[] args) throws IOException {
 
-        if (args.length != 1) {
+        if (args.length != 1)
             throw new IOException("Usage: java SearchCmd <datafile>");
-        }
 
-        HTMLlist list = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
+        HashMap list = HtmlReader.readHtmlList (args[0]); // Read the file and create the linked list
 
         BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
@@ -31,10 +30,11 @@ public class SearchCmd {
 
             if (name == null || name.length() == 0) return;
 
-            StringSet urls = Searcher.existsIn(list,name);
+            StringSet results = Searcher.existsIn(list,name);
 
-            if (urls.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
-            else printResults(name, urls);
+            if (results.isEmpty()) System.out.println ("The word \""+name+"\" has NOT been found.");
+
+            else printResults(name, results);
 
         }
     }

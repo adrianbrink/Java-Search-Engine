@@ -15,24 +15,18 @@ public class Searcher {
 	|
 	*/
 
-    public static StringSet existsIn(HTMLlist list, String query) {
+    public static StringSet existsIn(HashMap list, String query) {
 
         StringSet results = new StringSet();
 
-        while (list != null) {
+        UrlList urlList = list.get(query);
 
-            if ( list.str.equals(query))
-            {
-                UrlList currentUrl = list.urls;
+        if (urlList == null) return results;
 
-                while (currentUrl != null)
-                {
-                    results.add(currentUrl.url);
-                    currentUrl = currentUrl.next;
-                }
-            }
-
-            list = list.next;
+        while (urlList != null)
+        {
+            results.add(urlList.url);
+            urlList = urlList.next;
         }
 
         return results;
