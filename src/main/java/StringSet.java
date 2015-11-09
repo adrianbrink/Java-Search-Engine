@@ -14,6 +14,11 @@ public class StringSet {
      */
     public void add(String element)
     {
+        for(String item: set)
+        {
+            if (item.equals(element)) return; // don't add if duplicate
+        }
+
         String[] arr1 = new String[]{element};
 
         set = merge(set, arr1);
@@ -21,6 +26,35 @@ public class StringSet {
 
     public boolean isEmpty() {
         return set.length == 0;
+    }
+
+    public void append(StringSet newSet) {
+
+        for (String item : newSet.set)
+        {
+            add(item);
+        }
+
+    }
+
+    /**
+     * Remove words that are not in both the newSet and this object's set
+     *
+     * @param newSet
+     */
+    public void keepDuplicatesOf(StringSet newSet)
+    {
+        StringSet duplicateSet = new StringSet();
+
+        for (String item : set)
+        {
+            for (String item2 : newSet.set)
+            {
+                if (item.equals(item2)) duplicateSet.add(item);
+            }
+        }
+
+        this.set = duplicateSet.set;
     }
 
     /**
