@@ -1,4 +1,5 @@
-import java.util.InputMismatchException;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 public class Searcher {
 
@@ -9,53 +10,58 @@ public class Searcher {
 	|
 	*/
 
-    public static StringSet search(String query, HashMap hashMap){
+    public static HashSet<String> search(String query, LinkedHashMap hashMap){
 
-        StringSet results = new StringSet();
+        HashSet<String> resultOne = new HashSet<String>();
+        HashSet<String> resultTwo;
 
         String[] parts = query.split(" ");
 
         if (parts.length == 3)
         {
             if (parts[1].equals("OR")) {
-                results = Searcher.existsIn(hashMap, parts[0]);
-                StringSet results2 = Searcher.existsIn(hashMap, parts[2]);
-                results.append(results2);
-                return results;
+                resultOne = Searcher.retrieveResult(hashMap, parts[0]);
+                resultTwo = Searcher.retrieveResult(hashMap, parts[2]);
+                if (resultOne == null && resultTwo == null) {
+                    return resultOne;
+                } else if (resultOne == null) {
+                    return resultTwo;
+                } else if (resultTwo == null) {
+                    return resultTwo;
+                } else {
+                    resultOne.addAll(resultTwo);
+                }
+            } else if (parts[1].equals("AND")) {
+                resultOne = Searcher.retrieveResult(hashMap, parts[0], parts[2]);
+                return resultOne;
             }
-
-            else if (parts[1].equals("AND"))
-            {
-                StringSet results1 = Searcher.existsIn(hashMap, parts[0]);
-                StringSet results2 = Searcher.existsIn(hashMap, parts[2]);
-                results1.keepDuplicatesOf(results2);
-                return results1;
-            }
+        } else if (parts.length == 1) {
+            resultOne = Searcher.retrieveResult(hashMap, parts[0]);
+            return resultOne;
         }
-
-        else if (parts.length == 1)
-        {
-            StringSet results1 = Searcher.existsIn(hashMap, parts[0]);
-            return results1;
-        }
-
-        return results;
+        return resultOne;
     }
 
-    public static StringSet existsIn(HashMap hashMap, String query) {
-
-        StringSet results = new StringSet();
-
-        UrlList urlList = hashMap.get(query);
-
-        if (urlList == null) return results;
-
-        while (urlList != null)
-        {
-            results.add(urlList.url);
-            urlList = urlList.next;
-        }
-        return results;
+    private static HashSet<String> retrieveResult (LinkedHashMap hashMap, String query) {
+        HashSet<String> urlResults = (HashSet) hashMap.get(query);
+        return urlResults;
     }
 
+
+    private static HashSet<String> retrieveResult (LinkedHashMap hashMap, String queryOne, String queryTwo) {
+        HashSet urlResultsOne = (HashSet) hashMap.get(queryOne);
+        HashSet urlResultsTwo = (HashSet) hashMap.get(queryTwo);
+
+        if (urlResultsOne != null && urlResultsTwo != null) {
+            if (urlResultsOne.size() <= urlResultsTwo.size()) {
+                urlResultsOne.addAll(urlResultsTwo);
+                return urlResultsOne;
+            } else {
+                urlResultsTwo.addAll(urlResultsOne);
+                return urlResultsTwo;
+            }
+        } else {
+            return null;
+        }
+    }
 }

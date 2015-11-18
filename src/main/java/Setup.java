@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 
-public class HtmlReader {
+public class Setup {
 
     /*
 	|--------------------------------------------------------------------------
@@ -12,19 +14,18 @@ public class HtmlReader {
 	*/
 
     /**
-     * Creates a client.HTMLlist from a file.
      *
      * @param filename
      * @return
      * @throws IOException
      */
-    public static HashMap readHtmlList (String filename) throws IOException {
+    public static LinkedHashMap initialise (String filename) throws IOException {
 
         String currentUrl = null;
 
         BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
-        HashMap hashMap = new HashMap(500);
+        LinkedHashMap<String, HashSet> hashMap = new LinkedHashMap();
 
         while ( true )
         {
@@ -40,7 +41,7 @@ public class HtmlReader {
 
             if (currentUrl == null) continue; // continue until we find the first url in the input file to prevent adding words without corresponding urls
 
-            addUrlToHashMap(hashMap, word, currentUrl);
+            addEntryToHashMap(hashMap, word, currentUrl);
         }
 
         file.close();
@@ -64,33 +65,14 @@ public class HtmlReader {
      * Adds the word as the key and the url as the value of the hashmap. Checks for duplicates inside each UrlList and only appends
      * new urls to the end.
      */
-    private static void addUrlToHashMap(HashMap hashMap, String word, String url) {
+    private static void addEntryToHashMap(LinkedHashMap hashMap, String word, String url) {
 
-        UrlList urlList = hashMap.get(word);
+        HashSet<String> urlHashMap = (HashSet) hashMap.get(word);
 
-        if (urlList == null) hashMap.put( word, new UrlList(url, null) );
-
-        else
-        {
-            UrlList currentUrl = urlList;
-            UrlList lastUrl = currentUrl;
-
-            boolean urlExists = false;
-
-            while ( true )
-            {
-                if (currentUrl.url.equals(url)) urlExists = true;// if url is already in url list, set urlExists to true
-
-                currentUrl = currentUrl.next;
-
-                if (currentUrl == null) break;// stop if at the end of the Urllist
-
-                lastUrl = currentUrl;
-            }
-
-            if ( ! urlExists) lastUrl.next = new UrlList(url, null); // if url is new, add it is the next element of the url list, happens when urlExists is false
-        }
-
+        if (urlHashMap == null) {
+            HashSet<String> hashSet = new HashSet<String>();
+            hashSet.add(url);
+            hashMap.put(word, hashSet);
+        } else { urlHashMap.add(url); }
     }
-
 }

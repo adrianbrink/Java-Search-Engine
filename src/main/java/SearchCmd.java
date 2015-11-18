@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+
 
 public class SearchCmd {
 
@@ -16,7 +19,8 @@ public class SearchCmd {
         if (args.length != 1)
             throw new IOException("Usage: java SearchCmd <datafile>");
 
-        HashMap hashMap = HtmlReader.readHtmlList (args[0]); // Read the file and create the HashMap
+
+        LinkedHashMap hashMap = Setup.initialise (args[0]); // Read the file and create the HashMap
 
         BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
@@ -30,7 +34,7 @@ public class SearchCmd {
 
             if (query == null || query.length() == 0) return;
 
-            StringSet results = Searcher.search(query, hashMap);
+            HashSet<String> results = Searcher.search(query, hashMap);
 
             printResults(query, results);
         }
@@ -49,9 +53,9 @@ public class SearchCmd {
      * @param query
      * @param results
      */
-    private static void printResults(String query, StringSet results) {
+    private static void printResults(String query, HashSet<String> results) {
 
-        if (results.isEmpty()) {
+        if (results == null) {
 
             System.out.println ("The query \""+query+"\" did not return any results.");
 
@@ -59,14 +63,10 @@ public class SearchCmd {
 
             System.out.println("The query \""+query+"\" returned the following results.");
 
-            for(String result: results.set) // for-each loop
+            for(String result: results) // for-each loop
             {
                 System.out.println(result);
             }
         }
     }
-
-
-
-
 }
