@@ -14,10 +14,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
+
 
 import java.util.LinkedHashMap;
 import java.util.HashSet;
-import javafx.scene.control.TextArea;
 
 public class GUI extends Application {
 
@@ -71,7 +72,7 @@ public class GUI extends Application {
         //Add all elements to pane (into grid)
         //GridLayout(int rows, int columns, int horizontalGap, int verticalGap)
         pane.add(labelExpl,0,0,2,1);
-        pane.add(SearchTextField,0,1,2,2);   
+        pane.add(SearchTextField,0,1,2,2);
     
         //GridPane (grid - center)
         GridPane paneCenter = new GridPane();

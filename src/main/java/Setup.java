@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 public class Setup {
     
-    static LinkedHashMap<String, HashSet> instance;
+    private static LinkedHashMap<String, HashSet> instance;
     
     private Setup(){}
     

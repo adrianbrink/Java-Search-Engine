@@ -3,6 +3,8 @@ import java.util.LinkedHashMap;
 
 public class Searcher {
 
+    private Searcher() {}
+
     public static HashSet<String> search(String query, LinkedHashMap hashMap){
 
         HashSet<String> resultOne = new HashSet<String>();
@@ -10,6 +12,7 @@ public class Searcher {
 
         String[] parts = query.split(" ");
 
+        // TODO: Maybe ignore capitalization through everything to lower/upper case
         if (parts.length == 3)
         {
             if (parts[1].equals("OR")) {
@@ -20,7 +23,7 @@ public class Searcher {
                 } else if (resultOne == null) {
                     return resultTwo;
                 } else if (resultTwo == null) {
-                    return resultTwo;
+                    return resultOne; // TODO: this used to be resultTwo and will always return the wrong thing
                 } else {
                     resultOne.addAll(resultTwo);
                 }
@@ -47,6 +50,7 @@ public class Searcher {
         HashSet urlResultsOne = (HashSet) hashMap.get(queryOne);
         HashSet urlResultsTwo = (HashSet) hashMap.get(queryTwo);
 
+        // TODO: This logic doesn't work. I might add stuff that shouldn't be added
         if (urlResultsOne != null && urlResultsTwo != null) {
             if (urlResultsOne.size() <= urlResultsTwo.size()) {
                 urlResultsOne.addAll(urlResultsTwo);
