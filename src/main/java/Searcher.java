@@ -3,13 +3,6 @@ import java.util.LinkedHashMap;
 
 public class Searcher {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Public Methods
-	|--------------------------------------------------------------------------
-	|
-	*/
-
     public static HashSet<String> search(String query, LinkedHashMap hashMap){
 
         HashSet<String> resultOne = new HashSet<String>();
@@ -38,6 +31,8 @@ public class Searcher {
         } else if (parts.length == 1) {
             resultOne = Searcher.retrieveResult(hashMap, parts[0]);
             return resultOne;
+        } else if (query == null || query.length() == 0) {
+            return null;
         }
         return resultOne;
     }

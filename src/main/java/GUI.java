@@ -50,10 +50,12 @@ public class GUI extends Application {
                 String userInput = SearchTextField.getText();
 
                 //Test for input from user:
-                HashSet<String> results = SearchCmd.searchConstruct(userInput, hashMap);
+                HashSet<String> results = Searcher.search(userInput, hashMap);
 
-                for(String result: results) { // for-each loop
-                    resultText.appendText(result +"\n");
+                if (results != null) {
+                    for (String result : results) { // for-each loop
+                        resultText.appendText(result + "\n");
+                    }
                 }
             }
         });
