@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -19,25 +17,29 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.LinkedHashMap;
+import java.util.HashSet;
+import javafx.scene.control.TextArea;
+
+
 public class GUI extends Application {
 
     TextField SearchTextField;
-    Label labelResult;
-    //HashMap hashMap = this.hashMap;
+    LinkedHashMap hashMap = Setup.getInstance();
     
     @Override
     public void start(Stage primaryStage) {
     
     //Objects
     SearchTextField = new TextField();
-        SearchTextField.setPrefWidth(210);         
+        //SearchTextField.setPrefWidth(250);         
 
-    Label labelExpl = new Label(" Input Search word: ");
+    Label labelExpl = new Label("Input Search word: ");
         labelExpl.setTextFill(Color.web("#0076a3"));
 
-    Text resultText = new Text();
-        resultText.setText(" Search Results: ");
-        resultText.setFill(Color.GRAY);
+    TextArea resultText = new TextArea();
+        resultText.setText("Search Results: \n");
+        //resultText.setPrefWidth(250);
         
     Button btn = new Button("Search"); 
         btn.setPrefWidth(170);
@@ -49,22 +51,19 @@ public class GUI extends Application {
             public void handle(ActionEvent event){
                 String userInput = SearchTextField.getText();
                 
-                System.out.println(userInput);
-
-                try {
+                //System.out.println(userInput);
                     
                     //Test for input from user:
-                    SearchCmd.searchConstruct(userInput /*, hashMap*/);
-                
-                } catch (IOException ex) {
+                    HashSet<String> results = SearchCmd.searchConstruct(userInput, hashMap);
+
+                    for(String result: results) { // for-each loop
+                        resultText.appendText(result +"\n");
+                    }    
                     
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                
-                }
             }
         });
-    
-    //GridPane (grid)
+        
+    //GridPane (grid - top)
     GridPane pane = new GridPane();
     pane.setAlignment(Pos.BOTTOM_LEFT);
     pane.setHgap(5);
@@ -72,12 +71,23 @@ public class GUI extends Application {
     pane.setPadding(new Insets(5, 10, 10, 45));
     pane.setBorder(Border.EMPTY);
         
-    //Add all elements to pane (into grid)
-    //GridLayout(int rows, int columns, int horizontalGap, int verticalGap)
-    pane.add(labelExpl,0,0,2,1);
-    pane.add(SearchTextField,0,1,2,2);   
-    pane.add(resultText,0,3,4,4);
+        //Add all elements to pane (into grid)
+        //GridLayout(int rows, int columns, int horizontalGap, int verticalGap)
+        pane.add(labelExpl,0,0,2,1);
+        pane.add(SearchTextField,0,1,2,2);   
     
+    //GridPane (grid - center)    
+    GridPane paneCenter = new GridPane();
+    pane.setAlignment(Pos.BOTTOM_LEFT);
+    pane.setHgap(10);
+    pane.setVgap(10);
+    pane.setPadding(new Insets(5, 10, 10, 45));
+    pane.setBorder(Border.EMPTY);
+    
+        //Add all elements to pane (into grid)
+        //GridLayout(int rows, int columns, int horizontalGap, int verticalGap)  
+        pane.add(resultText,0,3,4,4);
+        
     //HBox
     HBox hbox = new HBox();
     hbox.setPadding(new Insets(5, 10, 10, 45));
@@ -88,9 +98,10 @@ public class GUI extends Application {
     BorderPane border = new BorderPane(); 
     border.setBottom(hbox); //add hbox to border from method
     border.setTop(pane); //add grid to border from method
+    border.setCenter(paneCenter);
    
     //Scene: (contains border)
-    Scene scene = new Scene(border, 300, 400);
+    Scene scene = new Scene(border, 600, 400);
    
     //Stage:
     primaryStage.setTitle("JavaSearchEngine");
@@ -99,16 +110,13 @@ public class GUI extends Application {
     } 
     
     public static void main (String[] args) throws IOException {
-    
-        //HashMap hashMap = HtmlReader.readHtmlList();
-    
-        launch(args);
-    
-    }
-    
-    public static void printResults(StringSet results) {
-
         
+        LinkedHashMap hashMap = Setup.initialise(args[0]);
+        
+        while(hashMap != null){
+            launch(args);
+        } 
+    
     }
 }
 

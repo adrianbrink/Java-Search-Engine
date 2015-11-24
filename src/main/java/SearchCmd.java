@@ -14,30 +14,29 @@ public class SearchCmd {
 	|
 	*/
 
-    public static void main (String[] args) throws IOException {
-
-        if (args.length != 1)
-            throw new IOException("Usage: java SearchCmd <datafile>");
+    public static HashSet<String> searchConstruct(String query, LinkedHashMap<String, HashSet> hashMap) {
 
 
-        LinkedHashMap hashMap = Setup.initialise (args[0]); // Read the file and create the HashMap
 
-        BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
-        System.out.println ("Hit return to exit.");
+        //LinkedHashMap hashMap = Setup.initialise (args[0]); // Read the file and create the HashMap
 
-        while (true) {
+        //BufferedReader input = new BufferedReader (new InputStreamReader (System.in)); // Start reading input from the user
 
-            System.out.print ("Search for: ");
+        //System.out.println ("Hit return to exit.");
 
-            String query = input.readLine(); // Read a line from the terminal
+        //while (true) {
 
-            if (query == null || query.length() == 0) return;
+            //System.out.print ("Search for: ");
+
+            //String query = input.readLine(); // Read a line from the terminal
+
+            if (query == null || query.length() == 0) return null;
 
             HashSet<String> results = Searcher.search(query, hashMap);
 
-            printResults(query, results);
-        }
+            return results;
+        //}
     }
 
 	/*

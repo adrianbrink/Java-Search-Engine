@@ -5,6 +5,14 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public class Setup {
+    
+    static LinkedHashMap<String, HashSet> instance;
+    
+    private Setup(){}
+    
+    static {
+        instance = new LinkedHashMap<String, HashSet>();
+    }
 
     /*
 	|--------------------------------------------------------------------------
@@ -25,8 +33,6 @@ public class Setup {
 
         BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
-        LinkedHashMap<String, HashSet> hashMap = new LinkedHashMap();
-
         while ( true )
         {
             String word = file.readLine(); // read word
@@ -41,12 +47,16 @@ public class Setup {
 
             if (currentUrl == null) continue; // continue until we find the first url in the input file to prevent adding words without corresponding urls
 
-            addEntryToHashMap(hashMap, word, currentUrl);
+            addEntryToHashMap(instance, word, currentUrl);
         }
 
         file.close();
-
-        return hashMap;
+        
+        return instance;
+    }
+    
+    public static LinkedHashMap getInstance() {
+        return instance;
     }
 
 
