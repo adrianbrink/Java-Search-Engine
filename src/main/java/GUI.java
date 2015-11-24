@@ -2,26 +2,25 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.util.LinkedHashMap;
 import java.util.HashSet;
-import javafx.scene.control.TextArea;
 
 public class GUI extends Application {
-
-    TextField SearchTextField;
+    
+    TextField SearchTextField; 
     LinkedHashMap hashMap = Setup.getInstance();
     TextArea resultText;
 
@@ -30,32 +29,64 @@ public class GUI extends Application {
     public void start(Stage primaryStage) {
         //Objects
         SearchTextField = new TextField();
-        //SearchTextField.setPrefWidth(250);
 
         Label labelExpl = new Label("Input Search word: ");
         labelExpl.setTextFill(Color.web("#0076a3"));
 
         resultText = new TextArea();
         resultText.setText("Search Results: \n");
-        //resultText.setPrefWidth(250);
+        resultText.setWrapText(true);
         
         Button btn = new Button("Search");
         btn.setPrefWidth(170);
+        
+        Button btnCrawler = new Button("Crawler");
+        btnCrawler.setPrefWidth(170);
 
         // TODO: Turn these things into lambdas
         //Add handle to btn (Search:)
         btn.setOnAction(new EventHandler<ActionEvent>() {
             // @Override
             public void handle(ActionEvent event) {
-                String userInput = SearchTextField.getText();
+                
+                String userInput = SearchTextField.getText(); //Collect input from textField
+                
+                
+                if (userInput.length() != 0) {  // textField does not handle (userInput != null)
 
-                //Test for input from user:
-                HashSet<String> results = SearchCmd.searchConstruct(userInput, hashMap);
-
-                for(String result: results) { // for-each loop
-                    resultText.appendText(result +"\n");
+                    long start = System.currentTimeMillis(); // Search time count start
+                    
+                    HashSet<String> results = Searcher.search(userInput, hashMap);
+                    
+                    long end = System.currentTimeMillis(); // Search time count end
+                    
+                    int time = (int) ((end - start) /1000);  // Search time total ms                   
+                    
+                    if (results == null) { 
+                       
+                        resultText.setText("The search did not find any results for " +userInput);
+                        
+                    } else {
+                        
+                        resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
+                        
+                        int count = 0;
+                        
+                        for(String result: results) { // for-each loop through the result and append
+                            resultText.appendText(result +"\n");
+                            count++;
+                        }                      
+                        
+                        resultText.appendText(count +" results in " +time +" milisecond(s).");
+                    }
+                    
+                } else {
+                    
+                    resultText.setText("Please enter a search query");
+                    
                 }
             }
+                
         });
         
         //GridPane (grid - top)
@@ -87,7 +118,7 @@ public class GUI extends Application {
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(5, 10, 10, 45));
         hbox.setSpacing(10);
-        hbox.getChildren().addAll(btn);
+        hbox.getChildren().addAll(btn, btnCrawler);
     
         //BorderPane (border)
         BorderPane border = new BorderPane();
@@ -96,7 +127,7 @@ public class GUI extends Application {
         border.setCenter(paneCenter);
    
         //Scene: (contains border)
-        Scene scene = new Scene(border, 600, 400);
+        Scene scene = new Scene(border, 600, 300);
    
         //Stage:
         primaryStage.setTitle("JavaSearchEngine");
