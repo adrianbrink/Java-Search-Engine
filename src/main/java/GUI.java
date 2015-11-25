@@ -15,7 +15,6 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.TextArea;
 
 import java.util.LinkedHashMap;
 import java.util.HashSet;
@@ -52,9 +51,7 @@ public class GUI extends Application {
             public void handle(ActionEvent event) {
                 String userInput = SearchTextField.getText(); //Collect input from textField
                 
-                
                 if (userInput.length() != 0) {  // textField does not handle (userInput != null)
-
                     long start = System.currentTimeMillis(); // Search time count start
                     
                     HashSet<String> results = Searcher.search(userInput, hashMap);
@@ -63,12 +60,9 @@ public class GUI extends Application {
                     
                     int time = (int) ((end - start) /1000);  // Search time total ms                   
                     
-                    if (results == null) { 
-                       
+                    if (results == null) {
                         resultText.setText("The search did not find any results for " +userInput);
-                        
                     } else {
-                        
                         resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
                         
                         int count = 0;
@@ -76,13 +70,10 @@ public class GUI extends Application {
                         for(String result: results) { // for-each loop through the result and append
                             resultText.appendText(result +"\n");
                             count++;
-                        }                      
-                        
+                        }
                         resultText.appendText(count +" results in " +time +" milisecond(s).");
                     }
-                    
                 } else {
-                    
                     resultText.setText("Please enter a search query");
                 }
             }
