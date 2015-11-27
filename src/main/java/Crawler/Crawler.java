@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Crawler {
 
-    private static final int MAX_PAGES_TO_SEARCH = 10;
+    private int MAX_PAGES_TO_SEARCH = 10;
     private Set<String> pagesVisited = new HashSet<String>();
     private List<String> pagesToVisit = new LinkedList<String>();
     private String rootUrl;
@@ -20,8 +20,9 @@ public class Crawler {
     |
     */
 
-    public Crawler(String rootUrl) {
+    public Crawler(String rootUrl, int numberOfPages) {
         this.rootUrl = rootUrl;
+        this.MAX_PAGES_TO_SEARCH = numberOfPages;
     }
 
     /**

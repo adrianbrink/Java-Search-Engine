@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Scraper {
 
-    public List<String> links = new LinkedList<String>(); // Just a list of URLs
-    public Document htmlDocument; // This is our web page, or in other words, our document
+    public List<String> links = new LinkedList<String>(); // list of URLs
+    public Document htmlDocument; // the html of the webpage
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
 
@@ -46,8 +46,7 @@ public class Scraper {
         }
         catch(IOException ioe)
         {
-            // We were not successful in our HTTP request
-            System.out.println("Error in out HTTP request " + ioe);
+            System.out.println("Error in the HTTP request " + ioe);
         }
 
     }

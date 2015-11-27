@@ -27,6 +27,7 @@ public class GUI extends Application {
     
     TextField SearchTextField;
     TextField UrlTextField;
+    TextField PagesTextField;
     LinkedHashMap hashMap = Setup.getInstance();
     TextArea resultText;
 
@@ -47,7 +48,8 @@ public class GUI extends Application {
         btn.setPrefWidth(170);
         
         Button btnCrawler = new Button("Crawler");
-        UrlTextField = new TextField();
+        UrlTextField = new TextField("url");
+        PagesTextField = new TextField("# of pages");
         btnCrawler.setPrefWidth(170);
 
         btnCrawler.setOnAction(new EventHandler<ActionEvent>() {
@@ -56,8 +58,9 @@ public class GUI extends Application {
                 Filesystem.deleteFile("scrape");
 
                 String url = UrlTextField.getText();
+                int numberOfPages = Integer.parseInt(PagesTextField.getText());
 
-                Crawler crawler = new Crawler(url);
+                Crawler crawler = new Crawler(url, numberOfPages);
                 crawler.crawl();
 
                 LinkedHashMap hashMap2 = Setup.initialise("files/scrape");
@@ -157,8 +160,8 @@ public class GUI extends Application {
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(5, 10, 10, 45));
         hbox.setSpacing(10);
-        hbox.getChildren().addAll(btn, btnCrawler);
-        hbox.getChildren().add(UrlTextField);
+        hbox.getChildren().addAll(btn, btnCrawler, UrlTextField, PagesTextField);
+
     
         //BorderPane (border)
         BorderPane border = new BorderPane();
