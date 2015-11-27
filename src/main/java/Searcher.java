@@ -7,7 +7,7 @@ public class Searcher {
 
     public static HashSet<String> search(String query, LinkedHashMap hashMap){
 
-        HashSet<String> resultOne = new HashSet<String>();
+        HashSet<String> resultOne;
         HashSet<String> resultTwo;
 
         String[] parts = query.split(" ");
@@ -19,13 +19,14 @@ public class Searcher {
                 resultOne = Searcher.retrieveResult(hashMap, parts[0]);
                 resultTwo = Searcher.retrieveResult(hashMap, parts[2]);
                 if (resultOne == null && resultTwo == null) {
-                    return resultOne;
+                    return null;
                 } else if (resultOne == null) {
                     return resultTwo;
                 } else if (resultTwo == null) {
-                    return resultOne; // TODO: this used to be resultTwo and will always return the wrong thing
+                    return resultOne;
                 } else {
                     resultOne.addAll(resultTwo);
+                    return resultOne;
                 }
             } else if (parts[1].equals("AND")) {
                 resultOne = Searcher.retrieveResult(hashMap, parts[0], parts[2]);
@@ -37,7 +38,7 @@ public class Searcher {
         } else if (query == null || query.length() == 0) {
             return null;
         }
-        return resultOne;
+        return null;
     }
 
     private static HashSet<String> retrieveResult (LinkedHashMap hashMap, String query) {
@@ -50,17 +51,11 @@ public class Searcher {
         HashSet urlResultsOne = (HashSet) hashMap.get(queryOne);
         HashSet urlResultsTwo = (HashSet) hashMap.get(queryTwo);
 
-        // TODO: This logic doesn't work. I might add stuff that shouldn't be added
-        if (urlResultsOne != null && urlResultsTwo != null) {
-            if (urlResultsOne.size() <= urlResultsTwo.size()) {
-                urlResultsOne.addAll(urlResultsTwo);
-                return urlResultsOne;
-            } else {
-                urlResultsTwo.addAll(urlResultsOne);
-                return urlResultsTwo;
-            }
-        } else {
-            return null;
-        }
+        if (urlResultsOne == null || urlResultsTwo == null) return null;
+
+        urlResultsOne.retainAll(urlResultsTwo);
+
+        return urlResultsOne;
+
     }
 }

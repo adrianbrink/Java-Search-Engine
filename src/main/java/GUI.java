@@ -58,7 +58,7 @@ public class GUI extends Application {
                     
                     long end = System.currentTimeMillis(); // Search time count end
                     
-                    int time = (int) ((end - start) /1000);  // Search time total ms                   
+                    long time = ((end - start));  // Search time total ms
                     
                     if (results == null) {
                         resultText.setText("The search did not find any results for " +userInput);
