@@ -1,4 +1,6 @@
 import java.io.IOException;
+
+import Infrastructure.Filesystem;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,9 +21,12 @@ import javafx.stage.Stage;
 import java.util.LinkedHashMap;
 import java.util.HashSet;
 
+import Crawler.Crawler;
+
 public class GUI extends Application {
     
-    TextField SearchTextField; 
+    TextField SearchTextField;
+    TextField UrlTextField;
     LinkedHashMap hashMap = Setup.getInstance();
     TextArea resultText;
 
@@ -42,7 +47,51 @@ public class GUI extends Application {
         btn.setPrefWidth(170);
         
         Button btnCrawler = new Button("Crawler");
+        UrlTextField = new TextField();
         btnCrawler.setPrefWidth(170);
+
+        btnCrawler.setOnAction(new EventHandler<ActionEvent>() {
+            // @Override
+            public void handle(ActionEvent event) {
+                Filesystem.deleteFile("scrape");
+
+                String url = UrlTextField.getText();
+
+                Crawler crawler = new Crawler(url);
+                crawler.crawl();
+
+                LinkedHashMap hashMap2 = Setup.initialise("files/scrape");
+
+
+                System.out.println("created hashmap");
+
+                String userInput = SearchTextField.getText(); //Collect input from textField
+                System.out.println(userInput);
+
+                if (userInput.length() == 0) resultText.setText("Please enter a search query");
+
+                else {
+
+                    long start = System.currentTimeMillis(); // Search time count start
+
+                    HashSet<String> results = Searcher.search(userInput, hashMap2);
+
+                    long time = ((System.currentTimeMillis() - start));  // Search time total ms
+
+                    if (results == null) resultText.setText("The search did not find any results for " +userInput);
+
+                    else {
+                        resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
+
+                        for(String result: results) resultText.appendText(result +"\n");
+
+                        resultText.appendText(results.size() +" results in " +time +" milisecond(s).");
+                    }
+                }
+
+            }
+        });
+
 
         // TODO: Turn these things into lambdas
         //Add handle to btn (Search:)
@@ -50,23 +99,23 @@ public class GUI extends Application {
             // @Override
             public void handle(ActionEvent event) {
                 String userInput = SearchTextField.getText(); //Collect input from textField
-                
+
                 if (userInput.length() != 0) {  // textField does not handle (userInput != null)
                     long start = System.currentTimeMillis(); // Search time count start
-                    
+
                     HashSet<String> results = Searcher.search(userInput, hashMap);
-                    
+
                     long end = System.currentTimeMillis(); // Search time count end
-                    
+
                     long time = ((end - start));  // Search time total ms
-                    
+
                     if (results == null) {
                         resultText.setText("The search did not find any results for " +userInput);
                     } else {
                         resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
-                        
+
                         int count = 0;
-                        
+
                         for(String result: results) { // for-each loop through the result and append
                             resultText.appendText(result +"\n");
                             count++;
@@ -78,7 +127,7 @@ public class GUI extends Application {
                 }
             }
         });
-        
+
         //GridPane (grid - top)
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.BOTTOM_LEFT);
@@ -109,6 +158,7 @@ public class GUI extends Application {
         hbox.setPadding(new Insets(5, 10, 10, 45));
         hbox.setSpacing(10);
         hbox.getChildren().addAll(btn, btnCrawler);
+        hbox.getChildren().add(UrlTextField);
     
         //BorderPane (border)
         BorderPane border = new BorderPane();

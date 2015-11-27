@@ -27,30 +27,39 @@ public class Setup {
      * @return
      * @throws IOException
      */
-    public static LinkedHashMap initialise (String filename) throws IOException {
+    public static LinkedHashMap initialise (String filename) {
+
+        instance.clear();
 
         String currentUrl = null;
 
-        BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
+        try {
 
-        while ( true )
-        {
-            String word = file.readLine(); // read word
+            BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
-            if ( word == null ) break; // checks for end
-
-            if ( word.startsWith("*PAGE:") ) // if word is a url, set the current url and skip to next word
+            while ( true )
             {
-                currentUrl = word.substring(6);
-                continue;
+                String word = file.readLine(); // read word
+
+                if ( word == null ) break; // checks for end
+
+                if ( word.startsWith("*PAGE:") ) // if word is a url, set the current url and skip to next word
+                {
+                    currentUrl = word.substring(6);
+                    continue;
+                }
+
+                if (currentUrl == null) continue; // continue until we find the first url in the input file to prevent adding words without corresponding urls
+
+                addEntryToHashMap(instance, word, currentUrl);
             }
 
-            if (currentUrl == null) continue; // continue until we find the first url in the input file to prevent adding words without corresponding urls
+            file.close();
 
-            addEntryToHashMap(instance, word, currentUrl);
         }
-
-        file.close();
+        catch (Exception e) {
+            System.out.println("stuff failed");
+        }
         
         return instance;
     }
