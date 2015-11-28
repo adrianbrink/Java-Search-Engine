@@ -13,6 +13,7 @@ public class Searcher {
         String[] parts = query.split(" ");
 
         // TODO: Maybe ignore capitalization through everything to lower/upper case
+        // Remember to coordinate this with similar words funtionality!
         if (parts.length == 3)
         {
             if (parts[1].equals("OR")) {

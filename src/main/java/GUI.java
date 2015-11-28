@@ -61,8 +61,20 @@ public class GUI extends Application {
                     long time = ((end - start));  // Search time total ms
                     
                     if (results == null) {
-                        resultText.setText("The search did not find any results for " +userInput);
-                    } else {
+                        resultText.setText("The search did not find any results for '" +userInput+ "'");
+                                               
+                        HashSet<String> similarWords = SimilarWords.retrieveSimilarWords(hashMap, userInput);
+                        if (!similarWords.isEmpty()) { // If there are no similar words, don't try to display them
+                            resultText.appendText("\n ...but, I found these similar words: ");
+                            for (String similarWord: similarWords) {
+                                resultText.appendText(similarWord + ", ");                                
+                            }
+                        }                        
+                        //Maybe this should more correctly be handled somewhere else, like the searcher?
+                        //TODO: Handle boolean searches, could be just not do similar words when boolean search.
+                        
+                    } else {                      
+                        
                         resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
                         
                         int count = 0;
