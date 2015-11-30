@@ -175,3 +175,6 @@ buildNumber.properties
 
 # Troels is messy
 itcwww-medium-copy.txt
+
+# 
+files/*
