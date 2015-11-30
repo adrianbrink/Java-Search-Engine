@@ -15,9 +15,16 @@ public class Searcher {
 
         if (parts.length == 3)
         {
-            if (parts[1].equals("OR")) return Searcher.handleOrSearch(hashMap, parts[0], parts[2]);
+            // To future proof the code, we are cloning both queries in order to match how people would intuatively use this function.
+            // Cloning is needed, because retainAll modifies the HashSet in the HashMap.
+            HashSet<String> resultsOne = (HashSet) hashMap.get(parts[0]);
+            HashSet<String> tmpResultsOne = (HashSet<String>) resultsOne.clone();
+            HashSet<String> resultsTwo = (HashSet) hashMap.get(parts[2]);
+            HashSet<String> tmpResultsTwo = (HashSet<String>) resultsTwo.clone();
 
-            if (parts[1].equals("AND")) return Searcher.handleAndSearch(hashMap, parts[0], parts[2]);
+            if (parts[1].equals("OR")) return Searcher.handleOrSearch(tmpResultsOne, tmpResultsTwo);
+
+            if (parts[1].equals("AND")) return Searcher.handleAndSearch(tmpResultsOne, tmpResultsTwo);
         }
         return null;
     }
@@ -34,14 +41,9 @@ public class Searcher {
 
     /**
      * Performs the OR search on two words.
-     * @param hashMap
-     * @param queryOne
-     * @param queryTwo
      * @return
      */
-    private static HashSet<String> handleOrSearch (LinkedHashMap hashMap, String queryOne, String queryTwo) {
-        HashSet<String> resultOne = (HashSet) hashMap.get(queryOne);
-        HashSet<String> resultTwo = (HashSet) hashMap.get(queryTwo);
+    private static HashSet<String> handleOrSearch (HashSet<String> resultOne, HashSet<String> resultTwo) {
 
         if (resultOne == null && resultTwo == null) return null;
 
@@ -49,25 +51,21 @@ public class Searcher {
 
         if (resultTwo == null) return resultOne;
 
+
         resultOne.addAll(resultTwo);
         return resultOne;
     }
 
     /**
      * Performs the AND search on two words.
-     * @param hashMap
-     * @param queryOne
-     * @param queryTwo
      * @return
      */
-    private static HashSet<String> handleAndSearch (LinkedHashMap hashMap, String queryOne, String queryTwo) {
-        HashSet<String> resultsOne = (HashSet) hashMap.get(queryOne);
-        HashSet<String> resultsTwo = (HashSet) hashMap.get(queryTwo);
+    private static HashSet<String> handleAndSearch (HashSet<String> resultOne, HashSet<String> resultTwo) {
 
-        if (resultsOne == null || resultsTwo == null) return null;
+        if (resultOne == null || resultTwo == null) return null;
 
-        resultsOne.retainAll(resultsTwo);
+        resultOne.retainAll(resultTwo);
 
-        return resultsOne;
+        return resultOne;
     }
 }

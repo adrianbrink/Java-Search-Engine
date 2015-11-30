@@ -55,7 +55,7 @@ public class Setup {
             file.close();
         }
         catch (Exception e) {
-            System.out.println("stuff failed");
+            System.out.println("The initialisation file could not be read, please ensure that it is in the correct location.");
         }
         
         return instance;
