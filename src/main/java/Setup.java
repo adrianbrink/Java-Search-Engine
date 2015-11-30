@@ -34,7 +34,6 @@ public class Setup {
         String currentUrl = null;
 
         try {
-
             BufferedReader file = new BufferedReader( new FileReader(filename) ); // Open the file given as argument
 
             while ( true )
@@ -53,9 +52,7 @@ public class Setup {
 
                 addEntryToHashMap(instance, word, currentUrl);
             }
-
             file.close();
-
         }
         catch (Exception e) {
             System.out.println("stuff failed");

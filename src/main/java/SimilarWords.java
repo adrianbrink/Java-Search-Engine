@@ -22,7 +22,6 @@ public class SimilarWords {
                 }
             }            
         }
-        
         return similarWords;
     }
     

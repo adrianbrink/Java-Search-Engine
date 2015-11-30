@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -16,16 +17,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.LinkedHashMap;
-
-
 public class GUI extends Application {
     
     TextField SearchTextField;
     TextField UrlTextField;
     TextField PagesTextField;
     TextArea resultText;
-
 
     @Override
     public void start(Stage primaryStage) {

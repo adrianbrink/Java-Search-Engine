@@ -7,56 +7,67 @@ public class Searcher {
 
     public static HashSet<String> search(String query, LinkedHashMap hashMap){
 
-        HashSet<String> resultOne;
-        HashSet<String> resultTwo;
-
         String[] parts = query.split(" ");
 
-        // TODO: Maybe ignore capitalization through everything to lower/upper case
-        // Remember to coordinate this with similar words funtionality!
+        if (query.length() == 0) return null;
+
+        if (parts.length == 1) return Searcher.handleSimpleSearch(hashMap, parts[0]);
+
         if (parts.length == 3)
         {
-            if (parts[1].equals("OR")) {
-                resultOne = Searcher.retrieveResult(hashMap, parts[0]);
-                resultTwo = Searcher.retrieveResult(hashMap, parts[2]);
-                if (resultOne == null && resultTwo == null) {
-                    return null;
-                } else if (resultOne == null) {
-                    return resultTwo;
-                } else if (resultTwo == null) {
-                    return resultOne;
-                } else {
-                    resultOne.addAll(resultTwo);
-                    return resultOne;
-                }
-            } else if (parts[1].equals("AND")) {
-                resultOne = Searcher.retrieveResult(hashMap, parts[0], parts[2]);
-                return resultOne;
-            }
-        } else if (parts.length == 1) {
-            resultOne = Searcher.retrieveResult(hashMap, parts[0]);
-            return resultOne;
-        } else if (query == null || query.length() == 0) {
-            return null;
+            if (parts[1].equals("OR")) return Searcher.handleOrSearch(hashMap, parts[0], parts[2]);
+
+            if (parts[1].equals("AND")) return Searcher.handleAndSearch(hashMap, parts[0], parts[2]);
         }
         return null;
     }
 
-    private static HashSet<String> retrieveResult (LinkedHashMap hashMap, String query) {
-        HashSet<String> urlResults = (HashSet) hashMap.get(query);
-        return urlResults;
+    /**
+     * Performs a query on a single word.
+     * @param hashMap
+     * @param query
+     * @return
+     */
+    private static HashSet<String> handleSimpleSearch (LinkedHashMap hashMap, String query) {
+        return (HashSet) hashMap.get(query);
     }
 
+    /**
+     * Performs the OR search on two words.
+     * @param hashMap
+     * @param queryOne
+     * @param queryTwo
+     * @return
+     */
+    private static HashSet<String> handleOrSearch (LinkedHashMap hashMap, String queryOne, String queryTwo) {
+        HashSet<String> resultOne = (HashSet) hashMap.get(queryOne);
+        HashSet<String> resultTwo = (HashSet) hashMap.get(queryTwo);
 
-    private static HashSet<String> retrieveResult (LinkedHashMap hashMap, String queryOne, String queryTwo) {
-        HashSet urlResultsOne = (HashSet) hashMap.get(queryOne);
-        HashSet urlResultsTwo = (HashSet) hashMap.get(queryTwo);
+        if (resultOne == null && resultTwo == null) return null;
 
-        if (urlResultsOne == null || urlResultsTwo == null) return null;
+        if (resultOne == null) return resultTwo;
 
-        urlResultsOne.retainAll(urlResultsTwo);
+        if (resultTwo == null) return resultOne;
 
-        return urlResultsOne;
+        resultOne.addAll(resultTwo);
+        return resultOne;
+    }
 
+    /**
+     * Performs the AND search on two words.
+     * @param hashMap
+     * @param queryOne
+     * @param queryTwo
+     * @return
+     */
+    private static HashSet<String> handleAndSearch (LinkedHashMap hashMap, String queryOne, String queryTwo) {
+        HashSet<String> resultsOne = (HashSet) hashMap.get(queryOne);
+        HashSet<String> resultsTwo = (HashSet) hashMap.get(queryTwo);
+
+        if (resultsOne == null || resultsTwo == null) return null;
+
+        resultsOne.retainAll(resultsTwo);
+
+        return resultsOne;
     }
 }
