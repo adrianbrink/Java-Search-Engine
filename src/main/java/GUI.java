@@ -1,10 +1,7 @@
 import java.io.IOException;
 
-import Infrastructure.Filesystem;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,16 +17,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.LinkedHashMap;
-import java.util.HashSet;
 
-import Crawler.Crawler;
 
 public class GUI extends Application {
     
     TextField SearchTextField;
     TextField UrlTextField;
     TextField PagesTextField;
-    LinkedHashMap hashMap = Setup.getInstance();
     TextArea resultText;
 
 
@@ -53,104 +47,11 @@ public class GUI extends Application {
         PagesTextField = new TextField("# of pages");
         btnCrawler.setPrefWidth(170);
 
+
         btnCrawler.setOnAction(new SearchHandler<ActionEvent>(SearchTextField, resultText, UrlTextField, PagesTextField));
-//            // @Override
-//            public void handle(ActionEvent event) {
-//                Filesystem.deleteFile("scrape");
-//
-//                String url = UrlTextField.getText();
-//                int numberOfPages = Integer.parseInt(PagesTextField.getText());
-//
-//                Crawler crawler = new Crawler(url, numberOfPages);
-//                crawler.crawl();
-//
-//                LinkedHashMap hashMap2 = Setup.initialise("files/scrape");
-//
-//
-//                System.out.println("created hashmap");
-//
-//                String userInput = SearchTextField.getText(); //Collect input from textField
-//                System.out.println(userInput);
-//
-//                if (userInput.length() == 0) resultText.setText("Please enter a search query");
-//
-//                else {
-//
-//                    long start = System.currentTimeMillis(); // Search time count start
-//
-//                    HashSet<String> results = Searcher.search(userInput, hashMap2);
-//
-//                    if (results == null) resultText.setText("The search did not find any results for " +userInput);
-//
-//                    else {
-//                        resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
-//
-//                        int count = 0;
-//
-//                        for(String result: results) {
-//                            resultText.appendText(result +"\n");
-//                            count++;
-//                        }
-//
-//                        long end = System.currentTimeMillis();
-//
-//                        float time = (float) ((end - start) / 1000);  // Search time total ms
-//
-//                        resultText.appendText(results.size() +" results in " + time + " second(s).");
-//                    }
-//
-//                }
-//
-//            }
-//        });
 
-
-        // TODO: Turn these things into lambdas
-
-        //Add handle to btn (Search:)
         btn.setOnAction(new SearchHandler<ActionEvent>(SearchTextField, resultText));
-        //   //*         // @Override
-//            public void handle(ActionEvent event) {
-//                String userInput = SearchTextField.getText(); //Collect input from textField
-//
-//                if (userInput.length() != 0) {  // textField does not handle (userInput != null)
-//                    long start = System.currentTimeMillis(); // Search time count start
-//
-//                    HashSet<String> results = Searcher.search(userInput, hashMap);
-//
-//                    long end = System.currentTimeMillis(); // Search time count end
-//
-//                    long time = ((end - start));  // Search time total ms
-//
-//                    if (results == null) {
-//                        resultText.setText("The search did not find any results for '" +userInput+ "'");
-//
-//                        HashSet<String> similarWords = SimilarWords.retrieveSimilarWords(hashMap, userInput);
-//                        if (!similarWords.isEmpty()) { // If there are no similar words, don't try to display them
-//                            resultText.appendText("\n ...but, I found these similar words: ");
-//                            for (String similarWord: similarWords) {
-//                                resultText.appendText(similarWord + ", ");
-//                            }
-//                        }
-//                        //Maybe this should more correctly be handled somewhere else, like the searcher?
-//                        //TODO: Handle boolean searches, could be just not do similar words when boolean search.
-//                    } else {
-//
-//                        resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
-//
-//                        int count = 0;
-//
-//                        for(String result: results) { // for-each loop through the result and append
-//                            resultText.appendText(result +"\n");
-//                            count++;
-//                        }
-//                        resultText.appendText(count +" results in " +time +" milisecond(s).");
-//                    }
-//                } else {
-//                    resultText.setText("Please enter a search query");
-//                }
-//            }
-//        });
+
 
         //GridPane (grid - top)
         GridPane pane = new GridPane();

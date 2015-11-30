@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 
 public class SearchHandler<T> implements EventHandler<ActionEvent> {
 
-    private String searchQuery;
     private LinkedHashMap<String, HashSet> hashMap = Setup.getInstance();
     private TextArea resultText;
     private TextField searchTextField;
