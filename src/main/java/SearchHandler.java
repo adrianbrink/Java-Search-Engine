@@ -30,58 +30,63 @@ public class SearchHandler<T> implements EventHandler<ActionEvent> {
         this.pageTextField = pageTextField;
     }
 
-    // @Override
     public void handle(ActionEvent event) {
-
-        if (urlTextField != null && pageTextField != null) {
-            Filesystem.deleteFile("scrape");
-
-            String url = urlTextField.getText();
-            int numberOfPages = Integer.parseInt(pageTextField.getText());
-
-            Crawler crawler = new Crawler(url, numberOfPages);
-            crawler.crawl();
-
-            Setup.initialise("files/scrape");
-        }
 
         String searchQuery = searchTextField.getText();
 
-        if (searchQuery.length() != 0) {  // textField does not handle (userInput != null)
-            long start = System.currentTimeMillis(); // Search time count start
-
-            HashSet<String> results = Searcher.search(searchQuery, hashMap);
-
-            long end = System.currentTimeMillis(); // Search time count end
-
-            long time = ((end - start));  // Search time total ms
-
-            if (results == null) {
-                resultText.setText("The search did not find any results for '" +searchQuery+ "'");
-
-                HashSet<String> similarWords = SimilarWords.retrieveSimilarWords(hashMap, searchQuery);
-                if (!similarWords.isEmpty()) { // If there are no similar words, don't try to display them
-                    resultText.appendText("\n ...but, I found these similar words: ");
-                    for (String similarWord: similarWords) {
-                        resultText.appendText(similarWord + ", ");
-                    }
-                }
-                //Maybe this should more correctly be handled somewhere else, like the searcher?
-                //TODO: Handle boolean searches, could be just not do similar words when boolean search.
-            } else {
-
-                resultText.setText("Search Results for " +searchQuery  +": \n"); //Resets the textArea for new results to be shown
-
-                int count = 0;
-
-                for(String result: results) { // for-each loop through the result and append
-                    resultText.appendText(result +"\n");
-                    count++;
-                }
-                resultText.appendText(count +" results in " +time +" milisecond(s).");
-            }
-        } else {
+        if (searchQuery.length() == 0) {  // textField does not handle (userInput != null)
             resultText.setText("Please enter a search query");
+            return;
         }
+
+        long start = System.currentTimeMillis(); // Search time count start
+
+        if (urlTextField != null && pageTextField != null) handleCrawler();
+
+        HashSet<String> results = Searcher.search(searchQuery, hashMap);
+
+        long time = ((System.currentTimeMillis() - start));  // Search time total ms
+
+        if (results == null) {
+            resultText.setText("The search did not find any results for '" + searchQuery + "'");
+            showSimilarWords(searchQuery);
+            return;
+        }
+
+        resultText.setText("Search Results for " + searchQuery + ": \n"); //Resets the textArea for new results to be shown
+
+        for(String result: results) // for-each loop through the result and append
+            resultText.appendText(result + "\n");
+
+        resultText.appendText(results.size() + " results in " + time + " millisecond(s).");
+    }
+
+    /**
+     * show similar words
+     * @param searchQuery
+     */
+    private void showSimilarWords(String searchQuery) {
+        HashSet<String> similarWords = SimilarWords.retrieveSimilarWords(hashMap, searchQuery);
+        if (!similarWords.isEmpty()) { // If there are no similar words, don't try to display them
+            resultText.appendText("\n ...but, I found these similar words: ");
+            for (String similarWord: similarWords) {
+                resultText.appendText(similarWord + ", ");
+            }
+        }
+    }
+
+    /**
+     * Crawl the website and create the results HashMap
+     */
+    private void handleCrawler() {
+        Filesystem.deleteFile("scrape");
+
+        String url = urlTextField.getText();
+        int numberOfPages = Integer.parseInt(pageTextField.getText());
+
+        Crawler crawler = new Crawler(url, numberOfPages);
+        crawler.crawl();
+
+        Setup.initialise("files/scrape");
     }
 }
