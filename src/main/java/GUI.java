@@ -42,7 +42,7 @@ public class GUI extends Application {
 
         resultText = new TextArea();
         resultText.setText("Search Results: \n");
-        resultText.setWrapText(true);
+        resultText.setPrefWidth(450);
         
         Button btn = new Button("Search");
         btn.setPrefWidth(170);
@@ -79,17 +79,25 @@ public class GUI extends Application {
 
                     HashSet<String> results = Searcher.search(userInput, hashMap2);
 
-                    long time = ((System.currentTimeMillis() - start));  // Search time total ms
-
                     if (results == null) resultText.setText("The search did not find any results for " +userInput);
 
                     else {
                         resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
 
-                        for(String result: results) resultText.appendText(result +"\n");
+                        int count = 0;
 
-                        resultText.appendText(results.size() +" results in " +time +" milisecond(s).");
+                        for(String result: results) {
+                            resultText.appendText(result +"\n");
+                            count++;
+                        }
+
+                        long end = System.currentTimeMillis();
+
+                        float time = (float) ((end - start) / 1000);  // Search time total ms
+
+                        resultText.appendText(results.size() +" results in " + time + " second(s).");
                     }
+
                 }
 
             }

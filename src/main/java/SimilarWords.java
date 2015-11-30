@@ -5,7 +5,7 @@ import java.util.Map;
 public class SimilarWords {
     
     public static HashSet<String> retrieveSimilarWords(LinkedHashMap hashMap, String query) {
-        HashSet<String> similarWords = new HashSet<>();
+        HashSet<String> similarWords = new HashSet();
         
         Map<String, HashSet> map = hashMap;
 
