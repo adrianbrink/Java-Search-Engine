@@ -72,7 +72,6 @@ public class GUI extends Application {
                         }                        
                         //Maybe this should more correctly be handled somewhere else, like the searcher?
                         //TODO: Handle boolean searches, could be just not do similar words when boolean search.
-                        
                     } else {                      
                         
                         resultText.setText("Search Results for " +userInput  +": \n"); //Resets the textArea for new results to be shown
