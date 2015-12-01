@@ -24,58 +24,47 @@ public class GUI extends Application {
     TextField SearchTextField, SearchTextFieldPopup, UrlTextField, PagesTextField;
     TextArea resultText;
     Button btn, btnCrawler, btnCrawlerPopup, btnPopupClose;   
-    
-    // Primary & Secondary(popup):
-    GridPane pane, paneCenter, paneCenterPopup;
-    HBox hbox, hboxPopup;
-    BorderPane border, borderPopup;
-    Scene scene, scenePopup;
-    Stage Stage, newStage;
+
+    GridPane paneCenterPopup;
+    HBox hboxPopup;
+    BorderPane borderPopup;
+    Scene scenePopup;
+    Stage newStage;
 
     @Override
     public void start(Stage primaryStage) {
-        //Objects
-        SearchTextField = new TextField();
-        
-        SearchTextFieldPopup = new TextField();
-
+        //Objects primaryStage:      
         labelExpl = new Label("Input Search word: ");
-        labelExpl.setTextFill(Color.web("#0076a3"));
-        
-        labelUrlPopup = new Label("Input URL: ");
-        labelUrlPopup.setTextFill(Color.web("#0076a3"));
-        
-        labelPagePopup = new Label("Sub-pages to crawl: ");
-        labelPagePopup.setTextFill(Color.web("#0076a3"));
-        
-        labelSearchPopup = new Label("Input Search word: ");
-        labelSearchPopup.setTextFill(Color.web("#0076a3"));
-                
+        labelExpl.setTextFill(Color.web("#0076a3"));          
+        SearchTextField = new TextField();               
         resultText = new TextArea();
         resultText.setText("Search Results: \n");
-        resultText.setPrefWidth(450);
-        
-        UrlTextField = new TextField("http://www.");
-        
-        PagesTextField = new TextField();
-        
+        resultText.setPrefWidth(450);       
         btn = new Button("Search");
         btn.setPrefWidth(170);
-        btn.setOnAction(new SearchHandler<ActionEvent>(SearchTextField, resultText));
-        
+        btn.setOnAction(new SearchHandler<ActionEvent>(SearchTextField, resultText));       
         btnCrawler = new Button("Crawler");
         btnCrawler.setPrefWidth(170);
         btnCrawler.setOnAction(e-> ButtonClicked(e));
-            
+        
+        //Objects NewStage:
+        SearchTextFieldPopup = new TextField();        
+        labelUrlPopup = new Label("Input URL: ");
+        labelUrlPopup.setTextFill(Color.web("#0076a3"));
+        UrlTextField = new TextField("http://www.");       
+        labelPagePopup = new Label("Sub-pages to crawl: ");
+        labelPagePopup.setTextFill(Color.web("#0076a3"));       
+        PagesTextField = new TextField();        
+        labelSearchPopup = new Label("Input Search word: ");
+        labelSearchPopup.setTextFill(Color.web("#0076a3"));        
         btnCrawlerPopup = new Button("Search & Crawl");
         btnCrawlerPopup.setPrefWidth(170);
-        btnCrawlerPopup.setOnAction(e-> ButtonClicked(e));
-        
+        btnCrawlerPopup.setOnAction(e-> ButtonClicked(e));        
         btnPopupClose = new Button("Close window");
         btnPopupClose.setPrefWidth(170);
         btnPopupClose.setOnAction(e-> ButtonClicked(e));
         
-        //GridPane (grid - top)
+        //GridPane (PrimaryStage - border.top)
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.BOTTOM_LEFT);
         pane.setHgap(5);
@@ -87,7 +76,7 @@ public class GUI extends Application {
         pane.add(labelExpl,0,0,2,1);
         pane.add(SearchTextField,0,1,2,2);
     
-        //GridPane (grid - center)
+        //GridPane (PrimaryStage - border.center)
         GridPane paneCenter = new GridPane();
         paneCenter.setAlignment(Pos.BOTTOM_LEFT);
         paneCenter.setHgap(10);
@@ -98,7 +87,8 @@ public class GUI extends Application {
         //GridLayout(int rows, int columns, int horizontalGap, int verticalGap)  
         paneCenter.add(resultText,0,1,4,4);
         
-        GridPane paneCenterPopup = new GridPane();
+        //GridPane (NewStage - border.center)
+        paneCenterPopup = new GridPane();
         paneCenterPopup.setAlignment(Pos.BOTTOM_LEFT);
         paneCenterPopup.setHgap(10);
         paneCenterPopup.setVgap(10);
@@ -111,41 +101,45 @@ public class GUI extends Application {
         paneCenterPopup.add(labelPagePopup, 0, 2);
         paneCenterPopup.add(PagesTextField, 1, 2);
         
-        //HBox
+        //HBox (PrimaryStage - scene.border.bottom)
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(5, 10, 10, 45));
         hbox.setSpacing(110);
         hbox.getChildren().addAll(btn, btnCrawler);
         
-        HBox hboxPopup = new HBox();
+        //HBox (NewStage - scenePopup.border.bottom)
+        hboxPopup = new HBox();
         hboxPopup.setPadding(new Insets(5, 10, 10, 5));
         hboxPopup.setSpacing(5);
         hboxPopup.getChildren().addAll(btnCrawlerPopup, btnPopupClose);
     
-        //BorderPane (border)
+        //BorderPane (PrimaryStage - scene.border)
         BorderPane border = new BorderPane();
         border.setBottom(hbox); //add hbox to border from method
         border.setTop(pane); //add grid to border from method
         border.setCenter(paneCenter);
         
-        BorderPane borderPopup = new BorderPane();
+        //BorderPane (NewStage - scenePopup.border)
+        borderPopup = new BorderPane();
         borderPopup.setBottom(hboxPopup); //add hbox to border from method
         borderPopup.setCenter(paneCenterPopup); 
    
-        //Scene: (contains border)
+        //Scene: (PrimaryStage - primaryStage.scene)
         Scene scene = new Scene(border, 550, 300);
-        Scene scenePopup = new Scene(borderPopup, 350, 170);
+        
+        //Scene: (NewStage - newStage.scenePopup)
+        scenePopup = new Scene(borderPopup, 350, 170);
    
-        //Stage:
-        primaryStage = new Stage();
+        //Stage: (PrimaryStage - primaryStage)
+        primaryStage = new Stage(); // initilized in this method: public void start(Stage primaryStage) 
         primaryStage.setTitle("Java Search Engine");
         primaryStage.setScene(scene); // Show Scene
         primaryStage.show();
         
+        //Stage: (NewStage - newStage)
         newStage = new Stage();
         newStage.setScene(scenePopup);
-        //tell stage it is meannt to pop-up (Modal)
-        newStage.initModality(Modality.APPLICATION_MODAL);
+        newStage.initModality(Modality.APPLICATION_MODAL); //initilize the newStage as popup (model)
         newStage.setTitle("Crawler window");
        }
     

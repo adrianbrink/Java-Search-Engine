@@ -45,8 +45,6 @@ public class SearchHandler<T> implements EventHandler<ActionEvent> {
 
         HashSet<String> results = Searcher.search(searchQuery, hashMap);
 
-        long time = ((System.currentTimeMillis() - start));  // Search time total ms
-
         if (results == null) {
             resultText.setText("The search did not find any results for '" + searchQuery + "'");
             showSimilarWords(searchQuery);
@@ -58,6 +56,8 @@ public class SearchHandler<T> implements EventHandler<ActionEvent> {
         for(String result: results) // for-each loop through the result and append
             resultText.appendText(result + "\n");
 
+        long time = ((System.currentTimeMillis() - start));  // Search time total ms
+        
         resultText.appendText(results.size() + " results in " + time + " millisecond(s).");
     }
 
