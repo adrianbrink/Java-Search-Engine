@@ -71,7 +71,9 @@ public class Scraper {
 
         for (String word: words)
         {
-            Filesystem.writeToFileByName("scrape", word + "\n", true);
+            if (word != null) {
+                Filesystem.writeToFileByName("scrape", word + "\n", true);
+            }
         }
     }
 
