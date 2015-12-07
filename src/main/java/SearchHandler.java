@@ -31,7 +31,7 @@ public class SearchHandler<T> implements EventHandler<ActionEvent> {
     }
 
     public void handle(ActionEvent event) {
-
+        
         String searchQuery = searchTextField.getText();
 
         if (searchQuery.length() == 0) {  // textField does not handle (userInput != null)

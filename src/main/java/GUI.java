@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.LinkedHashMap;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -13,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -45,7 +45,7 @@ public class GUI extends Application {
         btn.setOnAction(new SearchHandler<ActionEvent>(SearchTextField, resultText));       
         btnCrawler = new Button("Crawler");
         btnCrawler.setPrefWidth(170);
-        btnCrawler.setOnAction(e-> ButtonClicked(e));
+        btnCrawler.setOnAction(e-> ButtonClicked(e));       
         
         //Objects NewStage:
         SearchTextFieldPopup = new TextField();        
@@ -139,23 +139,23 @@ public class GUI extends Application {
         //Stage: (NewStage - newStage)
         newStage = new Stage();
         newStage.setScene(scenePopup);
-        newStage.initModality(Modality.APPLICATION_MODAL); //initilize the newStage as popup (model)
+        newStage.initModality(Modality.APPLICATION_MODAL); //initialize the newStage as popup (model)
         newStage.setTitle("Crawler window");
        }
     
-    private void ButtonClicked(ActionEvent e) {       
-        if (e.getSource() == btnCrawler) {
+    private void ButtonClicked(ActionEvent e) {              
+        if (e.getSource() == btnCrawler) {        
             newStage.showAndWait(); //internal java function
         } 
-        if (e.getSource() == btnCrawlerPopup) {           
+        if (e.getSource() == btnCrawlerPopup) {       
             btnCrawlerPopup.setOnAction(new SearchHandler<ActionEvent>(SearchTextFieldPopup, resultText, UrlTextField, PagesTextField));
         }       
         if (e.getSource() == btnPopupClose) {
-                newStage.close();  
+            newStage.close();  
         }
     }
 
-    public static void main (String[] args) throws IOException {
+    public static void main (String[] args) throws IOException {      
         LinkedHashMap hashMap = Setup.initialise(args[0]);
         
         while(hashMap != null){
