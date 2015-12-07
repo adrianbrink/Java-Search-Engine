@@ -81,7 +81,7 @@ public class Setup {
      * Adds the word as the key and the url as the value of the hashmap. Checks for duplicates inside each UrlList and only appends
      * new urls to the end.
      */
-    private static void addEntryToHashMap(LinkedHashMap hashMap, String word, String url) {
+    protected static void addEntryToHashMap(LinkedHashMap hashMap, String word, String url) {
 
         HashSet<String> urlHashMap = (HashSet) hashMap.get(word);
 
