@@ -25,7 +25,7 @@ public class SimilarWords {
         return similarWords;
     }
     
-    private static int distance(String a, String b) {
+    protected static int distance(String a, String b) {
 
         //This algorithm is borrowed from [http://rosettacode.org/wiki/Levenshtein_distance#Java]
         //...which is based on [http://www.codeproject.com/Articles/13525/Fast-memory-efficient-Levenshtein-algorithm]
