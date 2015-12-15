@@ -1,8 +1,4 @@
-import com.sun.tools.javac.util.ArrayUtils;
-
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-
 
 import static org.junit.Assert.*;
 
@@ -13,14 +9,11 @@ public class SearcherTest {
     public void shouldReturnUrlsThatContainsKeyword() throws Exception {
 
         // Arrange
-        HTMLlist list = new HTMLlist ("*PAGE:http://www.test.dk", null);
-        HTMLlist list2 = new HTMLlist("test", null);
-        HTMLlist list3 = new HTMLlist("*PAGE:http://www.test2.dk", null);
-        HTMLlist list4 = new HTMLlist("test", null);
+        HTMLlist list = new HTMLlist ("test", null);
 
-        list3.next = list4;
-        list2.next = list3;
-        list.next = list2;
+        UrlList urlList1 = new UrlList("http://www.test.dk", null);
+        urlList1.next = new UrlList("http://www.test2.dk", null);
+        list.urls = urlList1;
 
         // Act
         StringSet result = Searcher.existsIn(list, "test");
